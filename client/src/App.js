@@ -1,5 +1,6 @@
 import './App.css';
 import Login from './Login';
+import { Home } from './Home';
 import { NavBar } from './NavBar';
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from "react"
@@ -7,18 +8,18 @@ import { useState, useEffect } from "react"
 function App() {
 
 	const [currentUser, setCurrentUser] = useState(null)
-	const [cookies, setCookies] = useState([])
 
 	useEffect(() => {
 		fetch('/me')
 		.then(res => {
 		if(res.ok) {
 			res.json().then(user => {
-				console.log(user)
+				setCurrentUser(user)
+				console.log(currentUser)
 			})
 		}
 		})
-	}, [])
+	}, [currentUser])
 
 	
 	const handleLogout = () => {
@@ -30,9 +31,10 @@ function App() {
 
 	return (
 		<div className="App">
-			<NavBar handleLogout={handleLogout}/>
+			<NavBar handleLogout={handleLogout} currentUser={currentUser}/>
 			<Routes>
-				<Route path='/' element={<Login setCurrentUser={setCurrentUser}/>} />
+				<Route path='/' element={<Home />} />
+				<Route path='login' element={<Login setCurrentUser={setCurrentUser}/>} />
 			</Routes>
 		</div>
 	);

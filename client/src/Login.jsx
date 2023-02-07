@@ -1,21 +1,26 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Login = ({ setCurrentUser }) => {
 
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [errors, setErrors] = useState([])
+	const navigate = useNavigate()
 
 	const onSubmit = (e) => {
 		e.preventDefault()
 		fetch('/login', {
 			method: "POST",
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({username, password})
+			body: JSON.stringify({ username, password })
 		})
 		.then(res => {
 			if(res.ok) {
-				res.json().then(user => setCurrentUser(user))
+				res.json().then(user => {
+					setCurrentUser(user)
+					navigate('/')
+				})
 			} else {
 				res.json().then(data => setErrors(data))
 			}
