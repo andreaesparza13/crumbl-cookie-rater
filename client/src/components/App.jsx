@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 import Login from './Login';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
@@ -31,7 +31,9 @@ function App() {
 
 	return (
 		<div className="App">
-			<NavBar handleLogout={handleLogout} currentUser={currentUser}/>
+			<div>
+				<NavBar handleLogout={handleLogout} currentUser={currentUser}/>
+			</div>
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='login' element={<Login setCurrentUser={setCurrentUser}/>} />
