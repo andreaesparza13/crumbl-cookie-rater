@@ -1,26 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { CookieCard } from './CookieCard'
+import { useLoaderData, useNavigation } from 'react-router-dom'
 
-export const Home = () => {
+const Home = () => {
 
-   const [cookies, setCookies] = useState([])
+   const cookieList = useLoaderData()
+   const navigation = useNavigation()
 
-   useEffect(() => {
-      fetch('/cookies')
-      .then(res => res.json())
-      .then(data => setCookies(data))
-   }, [])
+   if (navigation.state === "loading") {
+      return (
+         <h2>Loading...</h2>
+      )
+   }
 
-   const allCookies = cookies.map(cookie => (
-      <CookieCard 
-         name={cookie.name}
-         release_date={cookie.release_date}
-         description={cookie.description}
-         average_stars={cookie.average_stars}
-         image={cookie.image}
-      />
-   ))
    return (
-      <div>{allCookies}</div>
+      <div>
+         {cookieList.map(cookie => (
+            <CookieCard 
+               name={cookie.name}
+               release_date={cookie.release_date}
+               description={cookie.description}
+               average_stars={cookie.average_stars}
+               image={cookie.image}
+            />
+         ))}
+      </div>
    )
+}
+   
+export default Home
+
+export const dataLoader = async () => {
+   const res = await fetch('/cookies')
+   const cookies = await res.json()
+   return cookies
 }

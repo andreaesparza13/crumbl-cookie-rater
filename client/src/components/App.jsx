@@ -1,13 +1,13 @@
-import '../App.css';
-import Login from './Login';
-import { Home } from './Home';
+import '../index.css';
 import { NavBar } from './NavBar';
-import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom';
 
 function App() {
 
 	const [currentUser, setCurrentUser] = useState(null)
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetch('/me')
@@ -15,31 +15,27 @@ function App() {
 		if(res.ok) {
 			res.json().then(user => {
 				setCurrentUser(user)
-				console.log(currentUser)
 			})
+			navigate('/')
 		}
 		})
-	}, [currentUser])
-
+	}, [])
 	
 	const handleLogout = () => {
 		fetch('/logout', {
 			method: "DELETE"
 		})
 		setCurrentUser(null)
+		navigate('/')
 	}
 
 	return (
-		<div className="App">
+		<>
 			<div>
 				<NavBar handleLogout={handleLogout} currentUser={currentUser}/>
 			</div>
-			<Routes>
-				<Route path='/' element={<Home />} />
-				<Route path='login' element={<Login setCurrentUser={setCurrentUser}/>} />
-			</Routes>
-		</div>
-	);
+		</>
+	)
 }
 
 export default App;

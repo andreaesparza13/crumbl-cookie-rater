@@ -51,7 +51,6 @@ const Login = ({ setCurrentUser }) => {
 				</div>
 				<div>
 					<button type='submit'>Submit</button>
-					<button>Sign Up</button>
 				</div>
 				{errors ? <div>{errors}</div> : null}
 			</form>

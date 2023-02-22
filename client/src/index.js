@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, Link, Outlet } from "react-router-dom"
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import Home, { dataLoader } from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}></Route>
+    <Route path="/" element={<App />}>
+      <Route index element={<Home />} loader={dataLoader} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/signup' element={<Signup />} />
+    </Route>
   )
 )
 
