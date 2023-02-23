@@ -15,8 +15,8 @@ function App() {
 		if(res.ok) {
 			res.json().then(user => {
 				setCurrentUser(user)
+				navigate('/')
 			})
-			navigate('/')
 		}
 		})
 	}, [])
@@ -32,7 +32,7 @@ function App() {
 	return (
 		<>
 			<div>
-				<NavBar handleLogout={handleLogout} currentUser={currentUser}/>
+				<NavBar handleLogout={handleLogout} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
 			</div>
 		</>
 	)

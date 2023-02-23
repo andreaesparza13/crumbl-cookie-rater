@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Login = ({ setCurrentUser }) => {
+const Login = ({ setCurrentUser, currentUser }) => {
 
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [errors, setErrors] = useState([])
 	const navigate = useNavigate()
 
-	const onSubmit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault()
 		fetch('/login', {
 			method: "POST",
@@ -29,7 +29,7 @@ const Login = ({ setCurrentUser }) => {
 
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={handleSubmit}>
 				<h1>Login</h1>
 				<div>
 					<input
