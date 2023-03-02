@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
 	resources :ratings, only: [:index, :show, :create, :update, :destroy]
 	resources :cookies, only: [:index, :show]
-	resources :users, only: [:create, :update, :destroy]
+	resources :users, only: [:update, :destroy, :index]
 
 	post '/login', to: "sessions#create"
+	post '/signup', to: "users#create"
 	get '/me', to: "users#show"
 
 	delete '/logout', to: "sessions#destroy"
