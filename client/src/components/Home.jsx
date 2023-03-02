@@ -1,17 +1,10 @@
 import React from 'react'
 import { CookieCard } from './CookieCard'
-import { useLoaderData, useNavigation } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 
 const Home = () => {
 
    const cookieList = useLoaderData()
-   const navigation = useNavigation()
-
-   if (navigation.state === "loading") {
-      return (
-         <h2>Loading...</h2>
-      )
-   }
 
    return (
       <div>
@@ -22,6 +15,7 @@ const Home = () => {
                description={cookie.description}
                average_stars={cookie.average_stars}
                image={cookie.image}
+               key={cookie.id}
             />
          ))}
       </div>

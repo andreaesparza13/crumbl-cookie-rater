@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, Link, Outlet } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom"
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import Home, { dataLoader } from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Profile from './components/Profile';
+import Settings from './components/Settings';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +16,8 @@ const router = createBrowserRouter(
       <Route index element={<Home />} loader={dataLoader} />
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
+      <Route path='/profile' element={<Profile />} />
+      <Route path='/settings' element={<Settings />} />
     </Route>
   )
 )

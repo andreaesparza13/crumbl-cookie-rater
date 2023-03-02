@@ -1,23 +1,18 @@
 import '../index.css';
-import { NavBar } from './NavBar';
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, Outlet } from 'react-router-dom';
 
 function App() {
 
 	const [currentUser, setCurrentUser] = useState(null)
-
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetch('/me')
 		.then(res => {
-		if(res.ok) {
-			res.json().then(user => {
-				setCurrentUser(user)
-				navigate('/')
-			})
-		}
+			if (res.ok) {
+				res.json().then(user => setCurrentUser(user))
+			}
 		})
 	}, [])
 	
@@ -29,13 +24,36 @@ function App() {
 		navigate('/')
 	}
 
-	return (
-		<>
-			<div>
-				<NavBar handleLogout={handleLogout} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-			</div>
-		</>
-	)
+	if (currentUser === null) {
+		return (
+			<>
+				<div>
+					<Link to='/'>Home</Link>
+					<Link to='/login' setCurrentUser={setCurrentUser}>Login</Link>
+					<Link to='/signup'>Sign Up</Link>
+				</div>
+				<div>
+					<Outlet />
+				</div>
+			</>
+		);
+	}
+
+	else {
+		return (
+			<>
+				<div>
+					<Link to='/'>Home</Link>
+					<Link to='/profile' currentUser={currentUser}>Profile</Link>
+					<Link to='/settings' currentUser={currentUser}>Settings</Link>
+					<Link to='/' onClick={handleLogout}>Logout</Link>
+				</div>
+				<div>
+					<Outlet />
+				</div>
+			</>
+		);
+	}
 }
 
 export default App;
