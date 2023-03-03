@@ -1,19 +1,28 @@
-import React, { useState } from 'react'
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
-const Login = ({ setCurrentUser }) => {
+const theme = createTheme();
 
-	const [username, setUsername] = useState("")
-	const [password, setPassword] = useState("")
+export default function Login({ setCurrentUser }) {
+
+	const navigate = useNavigate();
 	const [errors, setErrors] = useState([])
-	const navigate = useNavigate()
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		const data = new FormData(event.currentTarget);
 		fetch('/login', {
 			method: "POST",
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ username, password })
+			body: JSON.stringify({ username: data.get('username'), password: data.get('password') })
 		})
 		.then(res => {
 			if(res.ok) {
@@ -25,37 +34,51 @@ const Login = ({ setCurrentUser }) => {
 				res.json().then(data => setErrors(data.error))
 			}
 		})
-	}
+	};
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit}>
-				<h1>Login</h1>
-				<div>
-					<input
-						type='text'
-						placeholder='Username'
-						name='username'
-						value={username}
-						onChange={e => setUsername(e.target.value)}
+		<ThemeProvider theme={theme}>
+			<Container component="main" maxWidth="xs">
+			<CssBaseline />
+			<Box
+				sx={{
+					marginTop: 8,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Typography component="h1" variant="h5">
+					Log In
+				</Typography>
+				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="username"
+						label="Username"
+						name="username"
+						autoComplete="username"
+						autoFocus
 					/>
-				</div>
-				<div>
-					<input
-						type='password'
-						placeholder='Password'
-						name='password'
-						value={password}
-						onChange={e => setPassword(e.target.value)}
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
+						type="password"
+						id="password"
+						autoComplete="current-password"
 					/>
-				</div>
-				<div>
-					<button type='submit'>Submit</button>
-				</div>
+					<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+						Log In
+					</Button>
+				</Box>
 				{errors ? <div>{errors}</div> : null}
-			</form>
-		</div>
-	)
+			</Box>
+			</Container>
+		</ThemeProvider>
+	);
 }
-
-export default Login
