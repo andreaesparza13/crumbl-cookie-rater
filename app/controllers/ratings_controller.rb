@@ -2,7 +2,7 @@ class RatingsController < ApplicationController
    skip_before_action :authorize, only: [:index, :show]
 
    def index 
-      render json: Rating.all 
+      render json: Rating.all
    end
 
    def show
